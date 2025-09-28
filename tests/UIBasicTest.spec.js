@@ -1,6 +1,6 @@
 const{test,expect} = require('@playwright/test')
 
-test('Browser context palywright test', async ({browser})=>{
+test('@Web Browser context palywright test', async ({browser})=>{
 
     const context = await browser.newContext()
     const page = await context.newPage()
@@ -17,7 +17,7 @@ test('Browser context palywright test', async ({browser})=>{
     console.log(await page.locator('.card-body a').nth(1).textContent())
 })
 
-test('Radio button assertion', async ({page})=>{
+test('@Web Radio button assertion', async ({page})=>{
     const radioUser = await page.locator('.radiotextsty').last()
     const textBlink = page.locator('[href*=documents-request]')
     await page.goto('https://rahulshettyacademy.com/loginpagePractise/')
@@ -32,7 +32,7 @@ test('Radio button assertion', async ({page})=>{
     //await page.pause()
 })
 
-test.only('Child windown handle',async({browser})=>{
+test('@Web Child windown handle',async({browser})=>{
     const context = await browser.newContext()
     const page = await context.newPage()
     const textBlink = page.locator('[href*=documents-request]')

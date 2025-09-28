@@ -81,8 +81,8 @@ test('e2e ecommerce test',async({page})=>
     }
     await page.locator('.email-title').waitFor();
     const viewOrder = await page.locator('.email-title').textContent();
-    await expect(viewOrder).toEqual(' order summary ');
+    expect(viewOrder).toEqual(' order summary ');
     const confirmOrderNumber = await page.locator('.col-text').textContent();
-    await expect(confirmOrderNumber.includes(orderNumber)).toBeTruthy();
+    expect(confirmOrderNumber.includes(orderNumber)).toBeTruthy();
     console.log(await page.locator('.title').textContent());
 })
