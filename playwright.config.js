@@ -44,8 +44,8 @@ export default defineConfig({
       name: 'chromium',
       use: { 
         browserName:'chromium',
-        headless: false,
-        screenshot: 'on',
+        headless: true,
+        screenshot: 'only-on-failure',
         trace:'on',
         ...devices['Desktop Chrome'] },
     },
