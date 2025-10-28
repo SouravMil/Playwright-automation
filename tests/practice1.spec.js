@@ -1,6 +1,6 @@
 const{test,expect} = require('@playwright/test');
 
-test.only('E-Commerce Functional Test Suite', async({page})=>
+test('E-Commerce Functional Test Suite', async({page})=>
 {
     const addItem = 'Sauce Labs Bike Light'
     //Login with Valid credentials
@@ -14,15 +14,7 @@ test.only('E-Commerce Functional Test Suite', async({page})=>
     page.on('dialog', dialog => dialog.accept());
     await expect(page.getByText('Products')).toBeVisible();
     const items = page.locator('.inventory_item_description');
-    for(let i=0;i<=await items.count();i++)
-    {
-        const productName = await items.nth(i).locator('.inventory_item_name').textContent();
-        if(productName.trim() === addItem)
-        {
-            await items.nth(i).locator('.btn_small').click();
-            break;
-        }
-    }
+    //for loop here
     await page.locator('.shopping_cart_link').click();
     const cartItem = page.locator('.cart_item')
     await cartItem.waitFor();
