@@ -48,6 +48,7 @@ test.only("E-Commerce Functional Test Suite", async ({ page }) => {
   const requireItem = await cartItems.locator('.inventory_item_name').textContent();
   expect(requireItem).toEqual('Sauce Labs Bike Light');
   await page.locator("#checkout").click();
+  await page.pause();
 });
 
 test("Use invalid credentials", async ({ page }) => {
