@@ -10,7 +10,7 @@ test.only("E-Commerce Functional Test Suite", async ({ page }) => {
     "Sauce Labs Fleece Jacket",
   ];
   //Login with Valid credentials
-  const user = "problem_user";
+  const user = "standard_user";
   const password = "secret_sauce";
   await page.goto("https://www.saucedemo.com/");
   await page.locator("#user-name").fill(user);
@@ -35,20 +35,57 @@ test.only("E-Commerce Functional Test Suite", async ({ page }) => {
   await cartItem.first().waitFor();
   ////////////expect(await cartItem.locator('.inventory_item_name').textContent()).toEqual(addItem);
   //remove unwanted item from cart (cart page)
-  const cartItems = page.locator(".cart_item_label");
-  for (let j = 0; j < (await cartItems.count()); j++) {
+  let cartItems = page.locator(".cart_item_label");
+  let count = await cartItems.count();
+  for (let j = 0; j < count; j++) {
     const unwanted = await cartItems
       .nth(j)
       .locator(".inventory_item_name")
       .textContent();
     if (unwanted !== "Sauce Labs Bike Light") {
-      await cartItems.nth(j).locator(".btn").click();
+      await cartItems.nth(j).locator(".btn_secondary").click();
+      //refresh the list since DOM has changed
+      cartItems = page.locator(".cart_item_label");
+      count = await cartItems.count();
+      j = -1;
     }
   }
-  const requireItem = await cartItems.locator('.inventory_item_name').textContent();
-  expect(requireItem).toEqual('Sauce Labs Bike Light');
+  const requireItem = await cartItems
+    .locator(".inventory_item_name")
+    .textContent();
+  expect(requireItem).toEqual("Sauce Labs Bike Light");
+  //checkout page
   await page.locator("#checkout").click();
+  await page.locator(".form_input").first().waitFor();
+  await page.fill("#first-name", "Robin");
+  await page.fill("#last-name", "Hood");
+  await page.fill("#postal-code", "711110");
+  await page.click("#continue");
+  //Order review page
+  await page.locator(".summary_info_label").first().waitFor();
+  const orderInfo = page.locator(".summary_value_label");
+  for (let k = 0; k < (await orderInfo.count()); k++) {
+    const orderConfirmation = await orderInfo.nth(k).textContent();
+    console.log(orderConfirmation);
+  }
+  const price = await page.locator(".summary_total_label").textContent();
+  const orderTotal = price.split(" ");
+  console.log(orderTotal[1]);
+  await page.click("#finish");
+  //Order complete
+  const thankYouText = await page.locator(".complete-header").textContent();
+  expect(thankYouText).toEqual("Thank you for your order!");
+  console.log(await page.locator(".complete-text").textContent());
+  //Back to home page
+  await page.getByRole("button", { name: "Back Home" }).click();
+  //log out flow
+  await page.locator(".inventory_item").last().waitFor();
+  await page.locator("#react-burger-menu-btn").click();
+  await page.locator(".bm-item-list").waitFor();
+  await page.click("#logout_sidebar_link");
+  //validate if user is logged out
   await page.pause();
+  await expect(page.locator("#login-button")).toBeVisible();
 });
 
 test("Use invalid credentials", async ({ page }) => {
