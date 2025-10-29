@@ -84,7 +84,6 @@ test.only("E-Commerce Functional Test Suite", async ({ page }) => {
   await page.locator(".bm-item-list").waitFor();
   await page.click("#logout_sidebar_link");
   //validate if user is logged out
-  await page.pause();
   await expect(page.locator("#login-button")).toBeVisible();
 });
 
