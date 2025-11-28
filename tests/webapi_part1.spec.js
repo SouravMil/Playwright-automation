@@ -8,10 +8,10 @@ let orderId;
 test.beforeAll(async()=>{
     const apiContext = await request.newContext();
     //Login API
-    const loginresponse = await apiContext.post('https://rahulshettyacademy.com/api/ecom/auth/login',
-    {
-        data: loginPayload
-    });
+    const loginresponse = await apiContext.post('https://rahulshettyacademy.com/api/ecom/auth/login', 
+        {
+            data: loginPayload
+        });
     expect(loginresponse.ok()).toBeTruthy();
     const responseJson = await loginresponse.json();
     sessionToken = await responseJson.token;

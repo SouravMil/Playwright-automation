@@ -21,5 +21,5 @@ test('Api practice for login', async({page})=>
     {
         window.localStorage.setItem('token',value)
     }, token);
-    await page.goto('https://rahulshettyacademy.com/api/ecom/auth/login');
+    await page.goto('https://rahulshettyacademy.com/client/#/dashboard/dash');
 })
